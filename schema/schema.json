@@ -1,0 +1,71 @@
+{
+	"$schema": "http://json-schema.org/schema#",
+	"$id": "https://github.com/bjlee72/gonu/schema/schema.json",
+	"description": "The JSON representation of the entire permission system.",
+	"type": "object",
+	"properties": {
+		"definitions": {
+			"type": "array",
+			"items": {
+				"$ref": "#/definitions/permission"
+			}
+		}
+	},
+	"definitions": {
+		"permission": {
+			"type": "object",
+			"description": "Represents a permission that controls the access to a resource.",
+			"properties": {
+				"resource": {
+					"$ref": "#/definitions/resource"
+				},
+				"grants": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/grant"
+					}
+				}
+			}
+		},
+		"resource": {
+			"type": "object",
+			"description": "Represents a resource for that the accesses need to be controlled.",
+			"properties": {
+				"uri": "string"
+			},
+			"oneOf": [ 
+				{ "required": [ "uri" ] }
+			]
+		},
+		"grant": {
+			"type": "object",
+			"description": "Describes to whom what permission is allowed.",
+			"properties": {
+				"roles": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"action": {
+					"type": "object",
+					"$ref": "#/definitions/action"
+				}
+			},
+			"required": [ "roles", "action" ]
+		},
+		"action": {
+			"type": "object",
+			"description": "Describes the actions allowed or denied",
+			"properties": {
+				"allow": {
+					"type": "string"
+				},
+				"deny": {
+					"type": "string"
+				}
+			},
+			"required": [ "allow" ]
+		}
+	}
+}
